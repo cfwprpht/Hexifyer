@@ -18,7 +18,7 @@ for some standarts you may want to use. Just put the conf file into the same dir
 
 How does the config file work?
 ------------------------------
-Create a File named "hexify.txt" and add following lines to it:
+Create a File named "hexifyer.conf" and add following lines to it:
 
 staticFile=C:\Path\To\Your\File\.txt
 allignTo16=true
