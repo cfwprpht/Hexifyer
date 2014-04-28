@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Hexifyer
@@ -215,13 +213,13 @@ namespace Hexifyer
                         while(d != 0)
                         {
                             u += 32;
-                            toSplit = splitSwap.Insert(u, "[n]");
-                            u += 3;
+                            toSplit = splitSwap.Insert(u, "n");
+                            u += 1;
 
                             if ((d -= 32) < 32)
                             {
                                 // Finally Split the 16 byte alligned text string into a Array
-                                string[] splitLine = Regex.Split(toSplit, "[n]");
+                                string[] splitLine = toSplit.Split(new string[] {"n"}, StringSplitOptions.None);
 
                                 // Finally Write the 16 byte alligned string Array
                                 File.AppendAllLines(thisFile, splitLine);
@@ -268,12 +266,12 @@ namespace Hexifyer
                 {
                     // The whole line will be converted from (a,b,c,d,e,f) 2 (A,B,C,D,E,F) before....
                     // ...we overload the string from our line into a new buffer so we can insert and swap the string to repeat the process the whole line long
-                    bufferA = LowerToUpperCase(line.Replace("[", "").Replace("]", ""));
+                    bufferA = LowerToUpperCase(line);
                 }
                 else
                 {
                     // We overload the string from our line into a new buffer so we can insert and swap the string to repeat the process the whole line long
-                    bufferA = line.Replace("[", "").Replace("]", "");
+                    bufferA = line;
                 }
 
                 // Do we use a empty Line?
@@ -407,20 +405,16 @@ namespace Hexifyer
                         while (d != 0)
                         {
                             u += 32;
-                            toSplit = splitSwap.Insert(u, "[n]");
-                            u += 3;
+                            toSplit = splitSwap.Insert(u, "n");
+                            u += 1;
 
                             if ((d -= 32) < 32)
                             {
                                 // Finally Split the 16 byte alligned text string into a Array
-                                string[] splitLine = Regex.Split(toSplit, "[n]");
+                                string[] splitLine = toSplit.Split(new string[] {"n"}, StringSplitOptions.None);
 
-                                // Finally Write the 16 byte alligned string Array and Replace all "[" & "]" from each line
-                                foreach (string newLine in splitLine)
-                                {
-                                    string bufferC = newLine.Replace("[", "").Replace("]", "");
-                                    File.AppendAllText(thisFile, bufferC + "\n");
-                                }
+                                // Finally Write the 16 byte alligned string Array
+                                File.AppendAllLines(thisFile, splitLine);
                             }
                             else
                             {
@@ -453,11 +447,11 @@ namespace Hexifyer
                 buttonHexify.Enabled = true;
             }
 
-            int m = textOpen.Text.Length;
-            string openText = textOpen.Text.Replace("hexifyer.conf", "");
-            int j = openText.Length;
+            string str1 = textOpen.Text;
+            string str2 = "hexifyer.conf";
+            bool contains;
 
-            if (j != m)
+            if ((contains = str1.Contains(str2)))
             {
                 StartUpCheck(textOpen.Text);
             }
